@@ -172,11 +172,10 @@ long LinuxParser::ActiveJiffies(int pid) {
     vector<int> indices {13,14};
     while (linestream >> value || i < 22) {
       if (std::find(indices.begin(), indices.end(), i) != indices.end()) {
-        jiffy_proc_active + stol(value);
+        jiffy_proc_active = stol(value);
       }
       i++;
     }
-//     std::cout << "CPU: " << key << " ";
   }
   return jiffy_proc_active;  
 }
@@ -298,11 +297,12 @@ string LinuxParser::User(int pid) {
       std::istringstream linestream(line);
       while (linestream >> usrname1 >> x_str >> id1 >> id2 >> usrname2 >> directory1 >> directory2) {
         if (id1 == uid) {
-          return usrname1;
+          break;
         }
       }
     }
   }
+  return usrname1;
 }
 
 // Read and return the uptime of a process
