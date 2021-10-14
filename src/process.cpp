@@ -22,7 +22,8 @@ float Process::CpuUtilization() {
   vector<float> cpu_util_data;
   cpu_util_data = LinuxParser::ProcessCpuUtilization(id_);
   // not include the time from children processes
-  float process_time_s {(cpu_util_data[0] + cpu_util_data[1]) / sysconf(_SC_CLK_TCK)};
+  float process_time_s {(cpu_util_data[0] + cpu_util_data[1]) 
+                        / sysconf(_SC_CLK_TCK)};
   float elapse_time_s { uptime - cpu_util_data[4] / sysconf(_SC_CLK_TCK) };
   cpu_util_ = process_time_s / elapse_time_s; // as a fraction (NOT percentage)
   return cpu_util_;
@@ -38,7 +39,7 @@ string Process::Ram() { return LinuxParser::Ram(id_); }
 string Process::User() { return LinuxParser::User(id_); }
 
 // Return the age of this process (in seconds)
-long int Process::UpTime() { return LinuxParser::UpTime(id_); }
+long int Process::UpTime() { return LinuxParser::UpTime() - LinuxParser::UpTime(id_); }
 
 // Overload the "less than" comparison operator for Process objects
 bool Process::operator<(Process const& a) const { 

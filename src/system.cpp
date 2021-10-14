@@ -24,8 +24,7 @@ vector<Process>& System::Processes() {
   processes_ = {};
   vector<int> process_ids = LinuxParser::Pids();
   for (int id : process_ids) { 
-    Process process(id);
-    processes_.push_back(process);
+    processes_.emplace_back(id);
   }
   std::sort(processes_.begin(), processes_.end());
   std::reverse(processes_.begin(), processes_.end());
