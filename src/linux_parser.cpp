@@ -172,7 +172,7 @@ long LinuxParser::ActiveJiffies(int pid) {
     vector<int> indices {13,14};
     while (linestream >> value || i < 22) {
       if (std::find(indices.begin(), indices.end(), i) != indices.end()) {
-        jiffy_proc_active = stol(value);
+        jiffy_proc_active += stol(value);
       }
       i++;
     }
@@ -219,7 +219,7 @@ vector<string> LinuxParser::CpuUtilization() {
   std::ifstream stream(kProcDirectory + kStatFilename);
   vector<string> CPU_utilization(10);
   
-  assert(stream.is_open());
+//   assert(stream.is_open());
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
@@ -228,7 +228,7 @@ vector<string> LinuxParser::CpuUtilization() {
       linestream >> CPU_utilization[i];
     }
   }
-  return CPU_utilization; 
+  return CPU_utilization;
 }
 
 // Read and return the total number of processes
@@ -300,6 +300,7 @@ string LinuxParser::User(int pid) {
           break;
         }
       }
+      break;
     }
   }
   return usrname1;
